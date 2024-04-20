@@ -1,0 +1,8 @@
+baseURL = ''
+languageCode = 'ar'
+relativeURLs = 'True'
+title = 'مدونتي'
+paginate = 9
+
+[permalinks]
+posts = '/topics/:title/'

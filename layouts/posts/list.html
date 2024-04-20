@@ -1,0 +1,52 @@
+{{ define "main" }}
+{{ partial "navbar" . }}
+{{ partial "hero" . }}
+<div class="posts-body">
+    <div class="posts-body__container">
+        <div class="row">
+            {{ $paginator := .Paginate (where .Pages "Type" "posts") }}
+            {{ range $paginator.Pages }}
+            <div class="card">
+                <div class="card-holder">
+                    <div class="card-head">
+                        <img src="{{ .Params.thumb}}" alt="image">
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ .Permalink }}">{{ truncate 30 .Title }}</a>
+                        <div>
+                            {{ range first 2 ( .GetTerms "tags") }}
+                            <a href="{{ .Permalink }}">#{{ .LinkTitle}}</a>
+                            {{ end }}
+                            {{ range ( .GetTerms "categories") }}
+                            <a href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                            {{ end }}
+                            <b>{{ dateFormat "2006" .Date}}</b>
+                        </div>
+                        <div>
+                            <p>{{ truncate 60 .Summary}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+        {{ if gt $paginator.TotalPages 1 }}
+        <nav class="pagination-nav">
+            {{ if $paginator.HasPrev }}
+            <a href="{{ $paginator.Prev.URL }}">
+                <i class="fa-solid fa-arrow-right"></i>
+                <span>السابق</span>               
+            </a>
+            {{ end }}
+            {{ if $paginator.HasNext }}
+            <a href="{{ $paginator.Next.URL}}">
+                <span>التالي</span>
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            {{ end }}
+        </nav>
+        {{ end }}
+    </div>
+</div>
+{{ partial "footer" .}}
+{{ end }}
